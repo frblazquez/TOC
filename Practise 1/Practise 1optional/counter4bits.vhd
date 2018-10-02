@@ -1,3 +1,12 @@
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+--
+-- Double degree in Mathematics-Computer engineering.
+-- Complutense university, Madrid.
+--
+-- Description: Practise one, optional part. Using the 
+-- components designed for this practise, create a 4 bits
+-- counter.
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;

@@ -1,4 +1,5 @@
 #salida del oscilador a 100MHz
+#
 NET clk LOC=T9;
 
 #switches placa superior
@@ -8,14 +9,14 @@ NET clk LOC=T9;
 #NET SW<4> LOC=J4;
 
 #switches placa extendida
-NET I<0> LOC=P12;
-NET I<1> LOC=J1;
-NET I<2> LOC=H1;
-NET I<3> LOC=H3;
-#NET B<0> LOC=G2;
-#NET B<1> LOC=K15;
-NET load LOC=K16;
-NET rst LOC=F15;
+NET countCounter LOC=P12;
+#NET I<1> LOC=J1;
+#NET I<2> LOC=H1;
+#NET I<3> LOC=H3;
+#NET O<0> LOC=G2;
+#NET O<1> LOC=K15;
+#NET countCounter LOC=K16;
+NET resetCounter LOC=F15;
 
 #push buttons placa superior
 #NET SW2 LOC=E11; 
@@ -28,10 +29,10 @@ NET rst LOC=F15;
 #NET pushb4 LOC=M3;
 
 #barra de leds placa extendida
-NET O<0> LOC=L5;
-NET O<1> LOC=N2;
-NET O<2> LOC=M3;
-NET O<3> LOC=N1;
+NET result<0> LOC=L5;
+NET result<1> LOC=N2;
+NET result<2> LOC=M3;
+NET result<3> LOC=N1;
 #NET leds<5> LOC=T13;
 #NET leds<6> LOC=L15;
 #NET leds<7> LOC=J13;

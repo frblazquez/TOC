@@ -50,8 +50,7 @@ BEGIN
           clk => clk,
 			    load => load,
           I => I,
-          O => O
-        );
+          O => O);
 
 -- Definicion del process de reloj
 reloj_process :process

@@ -197,4 +197,48 @@ will be clearer.
 	%  for the module operator.
 
 2.11.- Components:
+	Components are modules, circuits that we defined and implemented
+	before, apart, possibly in other files and project but modules that
+	we want to use in our circuit. We have to declare them before the
+	begin of the architecture.
 
+	-- This declaration has to match the entity declaration in the file
+	-- where it's implemented. The best way of doing this is copying it.
+	component comp_name
+		port(A: in  std_logic;	-- The type is just orientative and
+			 B: in  std_logic;	-- it's just given to see how to 
+			 C: out std_logic); -- initialize the component.
+	end component;
+
+	After the begin of the architecture we'll need to conect our comp-
+	onent. In order to do this we have to follow this schema.
+
+	name: com_name port map(
+		A => signal_a,
+		B => signal_b,
+		C => signal_c);
+
+2.12.- Packages:
+	-- Pending.
+
+2.13.- Generic parameters in VHDL:
+	Before the ports description in an entity, we can define parameters
+	with a generic value. If we want to desing a decoder, we don't need
+	to desing a decoder for each number of bites at the input. We can do
+	it generic using this easy schema. 
+
+	generic(generic_1: type := defaultValue,
+		    generic_2: type);
+
+    Giving a default value is not strictly necessary but it's highly re-
+    commended. This helps when the program has to implement the desing.
+
+3.- TESTBENCHS, SIMULATING TEST CASES:
+	
+	To see whether our circuit works or not we create an empty entity
+	and in it's architecture we instanciate a component for testing.
+	Then we give to the input signals test values and we can check the
+	correction of the output executing the simulation.
+
+	We can also do automatic testbenchs and using assert expresions 
+	checking the correction automatically.

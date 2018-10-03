@@ -23,15 +23,13 @@ architecture Behavioral of SystemEj2 is
 signal primo, menor4Par, mayor8Impar: std_logic;
 
 begin
-	
 	primo <= '1' 		 when input = "0010" or	input = "0011" or
-							 	   input = "0101" or	input = "0110" or
-							 	   input = "1011" else '0';
+							  input = "0101" or	input = "0110" or
+							  input = "1011" else '0';
 	menor4Par <= '1'	 when input = "0000" or input = "0010" else '0';
-	mayor8Impar <= '1' when input = "1001" or input = "1011" or 
-									input = "1111" else '0';
+	mayor8Impar <= '1'   when input = "1001" or input = "1011" or 
+							  input = "1111" else '0';
 									
 	output <= primo or menor4Par or mayor8Impar;
-	
 end Behavioral;
 

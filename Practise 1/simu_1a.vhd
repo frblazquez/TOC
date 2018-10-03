@@ -1,4 +1,11 @@
--- Aadimos las librerias necesarias
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+--
+-- Double degree in Mathematics-Computer engineering.
+-- Complutense university, Madrid.
+--
+-- Description: Practise one, part one. Test for the
+-- 4bits adder.
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 USE IEEE.STD_LOGIC_ARITH.ALL;

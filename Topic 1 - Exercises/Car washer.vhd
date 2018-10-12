@@ -11,7 +11,7 @@ use IEEE.STD_LOGIC_UNSIGNED.ALL;
 use IEEE.STD_LOGIC_ARITH.ALL;
 
 entity carWasher is
-	port(clk:       in std_logic;
+	port(clk:        in std_logic;
 		  startStop: in std_logic;
 		  waxIn:  	 in std_logic;
 		  waterOut: out std_logic;

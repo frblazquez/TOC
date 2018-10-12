@@ -211,7 +211,8 @@ will be clearer.
 	end component;
 
 	After the begin of the architecture we'll need to conect our comp-
-	onent. In order to do this we have to follow this schema.
+	onent. In order to do this we have to follow this schema. We also 
+	can initialize more than one component in our design.
 
 	name: com_name port map(
 		A => signal_a,
@@ -240,5 +241,5 @@ will be clearer.
 	Then we give to the input signals test values and we can check the
 	correction of the output executing the simulation.
 
-	We can also do automatic testbenchs and using assert expresions 
-	checking the correction automatically.
+	We can also do automatic testbenchs and use assert expresions to
+	check the correction automatically.

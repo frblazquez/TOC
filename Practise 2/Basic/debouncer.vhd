@@ -1,11 +1,3 @@
--- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
---
--- Double degree in Mathematics-Computer engineering.
--- Complutense university, Madrid.
---
--- Description: Debouncer for a push button. To avoid 
--- capturing transient mechanical signals.
-
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
 USE IEEE.numeric_std.ALL;

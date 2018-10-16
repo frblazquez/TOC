@@ -1,33 +1,14 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date:    20:21:03 12/10/2014 
--- Design Name: 
--- Module Name:    conv_7seg - Behavioral 
--- Project Name: 
--- Target Devices: 
--- Tool versions: 
--- Description: 
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
 --
--- Dependencies: 
+-- Double degree in Mathematics-Computer engineering.
+-- Complutense university, Madrid.
 --
--- Revision: 
--- Revision 0.01 - File Created
--- Additional Comments: 
---
-----------------------------------------------------------------------------------
+-- Description: Converter from binary to 7segment format
+
 library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx primitives in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
+use IEEE.STD_LOGIC_1164.ALL; 
+use IEEE.STD_LOGIC_ARITH.All;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity conv_7seg is
     Port ( x : in  STD_LOGIC_VECTOR (3 downto 0);

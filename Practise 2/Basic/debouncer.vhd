@@ -1,5 +1,13 @@
-LIBRARY IEEE;
-USE IEEE.std_logic_1164.ALL;
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+--
+-- Double degree in Mathematics-Computer engineering.
+-- Complutense university, Madrid.
+--
+-- Description: Debouncer for a push button.
+
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL; 
+use IEEE.STD_LOGIC_ARITH.All;
 USE IEEE.numeric_std.ALL;
 
 ENTITY debouncer IS

@@ -1,0 +1,54 @@
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+--
+-- Double degree in Mathematics-Computer engineering.
+-- Complutense university, Madrid.
+--
+-- Description: 
+-- Comparison of synthesis report from both mulipliers implemented.
+
+1.- 4 bit multiplier using operator '*' from ieee.numeric_std:
+
+   -----------------------------------------------------------------    
+    Advanced HDL Synthesis Report
+
+    Macro Statistics
+    # Multipliers                                          : 1
+     4x4-bit multiplier                                    : 1
+   -----------------------------------------------------------------
+    Minimum period: No path found
+    Minimum input arrival time before clock: No path found
+    Maximum output required time after clock: No path found
+    Maximum combinational path delay: 8.389ns
+   -----------------------------------------------------------------
+
+2.- 4 bit multiplier using cascading 8 bit adders:
+
+   -----------------------------------------------------------------
+    Advanced HDL Synthesis Report
+
+    Macro Statistics
+    # Adders/Subtractors                                   : 3
+     9-bit adder carry in                                  : 3
+   -----------------------------------------------------------------
+    Minimum period: No path found
+    Minimum input arrival time before clock: No path found
+    Maximum output required time after clock: No path found
+    Maximum combinational path delay: 10.731ns
+   -----------------------------------------------------------------
+    WARNING! Signal 'A1<7:4>', unconnected in block 'MultiplierAdders', 
+             is tied to its initial value (0000).
+
+    WARNING! Output port <co> of the instance <Adder3> is unconnected or 
+             connected to loadless signal.
+   -----------------------------------------------------------------
+
+3.- Conclusions:
+
+    In the first case is inferred a multiplier so the synthesis decides
+    to implement it with an 4 bit multiplier, specific hardware for this
+    operation, as a result we get faster hardware and less conections.
+
+    In the second case the synthesizer does exactly what we ask it to do,
+    it takes 3 adders and executes the multiplication as we describe it, 
+    doing three sums. The result is a slower hardware and using more compo-
+    nents.

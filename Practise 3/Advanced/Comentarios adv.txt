@@ -1,0 +1,146 @@
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+--
+-- Double degree in Mathematics-Computer engineering.
+-- Complutense university, Madrid.
+--
+-- Description: 
+-- Comparison of two different implementations for an 4bit
+-- multiplier using cascading adders. One using segmentation
+-- techniques and other not.
+
+0.- COMPARACIÓN:
+    Simplemente se observa que el retardo combinacional del multiplicador sin
+    segmentación es de ~ 18ns mientras que en el multiplicador con segmentación,
+    esto es, con registros auxiliares para dividir en dos el proceso de sumas que
+    nos dan el resultado de la multiplicación, se tiene que el máximo de la señal
+    de reloj es de ~ 9ns. Esto es, a pesar de que el tiempo que se tarda en obte-
+    ner nuestra salida con el resultado de la multiplicación desde que introducimos
+    los datos es aproximadamente el mismo, ¡Podemos realizar el doble de operaciones
+    por unidad de tiempo!
+    
+    Añado resúmenes de los informes de síntesis con más especificaciones.
+
+
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+SÍNTESIS DEL MULTIPLICADOR SIN SEGMENTACIÓN
+
+Synthesizing Unit <MultiplierAdders>.
+WARNING:Xst:653 - Signal <A4<7>>   is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A4<2:0>> is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A3<7:6>> is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A3<1:0>> is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A2<7:5>> is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A2<0>>   is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A1<7:4>> is used but never assigned. This signal will be connected to value 0.
+Unit <MultiplierAdders> synthesized.
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 3
+ 8-bit adder carry in/out                              : 3
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+
+Clock Information:
+------------------
+No clock signals found in this design
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -5
+
+   Minimum period: No path found
+   Minimum input arrival time before clock: No path found
+   Maximum output required time after clock: No path found
+   Maximum combinational path delay: 18.634ns
+
+=========================================================================
+
+Process "Synthesize - XST" completed successfully
+
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+SÍNTESIS DEL MULTIPLICADOR CON SEGMENTACIÓN!
+
+Synthesizing Unit <MultiplierAdders>.
+    Related source file is "C:/hlocal/Pr3Adv/Multiplier.vhd".
+Synthesizing Unit <MultiplierAdders>.
+WARNING:Xst:653 - Signal <A4<7>>   is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A4<2:0>> is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A3<7:6>> is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A3<1:0>> is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A2<7:5>> is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A2<0>>   is used but never assigned. This signal will be connected to value 0.
+WARNING:Xst:653 - Signal <A1<7:4>> is used but never assigned. This signal will be connected to value 0.
+Unit <MultiplierAdders> synthesized.
+    Found 8-bit register for signal <reg1Out>.
+    Found 8-bit register for signal <reg2Out>.
+    Summary:
+	inferred  16 D-type flip-flop(s).
+Unit <MultiplierAdders> synthesized.
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 3
+ 8-bit adder carry in/out                              : 3
+# Registers                                            : 16
+ Flip-Flops                                            : 16
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | BUFGP                  | 12    |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -5
+
+   Minimum period: No path found
+   Minimum input arrival time before clock: 6.751ns
+   Maximum output required time after clock: 9.225ns
+   Maximum combinational path delay: No path found
+
+=========================================================================
+
+Process "Synthesize - XST" completed successfully

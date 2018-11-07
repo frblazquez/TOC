@@ -1,0 +1,87 @@
+# Francisco Javier Blzquez Martnez ~ frblazqu@ucm.es
+#
+# Double degree in Mathematics-Computer engineering.
+# Complutense university, Madrid.
+#
+# Description: Pins for the conexion in practise 3.
+
+
+#salida del oscilador a 100MHz
+NET clk LOC=T9;
+
+#switches placa superior
+#NET SW<1> LOC=K4;
+#NET SW<2> LOC=K3;
+#NET SW<3> LOC=K2;
+#NET SW<4> LOC=J4;
+
+#switches placa extendida
+NET A<0> LOC=P12;
+NET A<1> LOC=J1;
+NET A<2> LOC=H1;
+NET A<3> LOC=H3;
+NET B<0> LOC=G2;
+NET B<1> LOC=K15;
+NET B<2> LOC=K16;
+NET B<3> LOC=F15;
+
+#push buttons placa superior
+#NET PB2 LOC=E11; 
+#NET PB3 LOC=A13; 
+
+# Push button placa extendida
+NET start LOC=H4;
+#NET pushb2 LOC=L5;
+#NET pushb3 LOC=N2;
+NET reset LOC=M3;
+
+#barra de leds placa extendida
+#NET leds<1> LOC=L5;
+#NET Z<0> LOC=N2;
+#NET Z<1> LOC=M3;
+#NET Z<2> LOC=N1;
+#NET Z<3> LOC=T13;
+#NET Z<4> LOC=L15;
+#NET Z<5> LOC=J13;
+#NET Z<6> LOC=H15;
+#NET Z<7> LOC=J16;
+NET ended LOC=J14;
+
+#Display 7-segmentos 
+#
+#		      S0
+#		      ---
+#	      S5|	 |S1
+#		    | S6 |
+#		      ---
+#	      S4|	 |S2
+#           |    |
+#		      ---
+#		      S3
+
+#Display 7-segmentos de la placa superior
+#NET display<0> loc=R10;
+#NET display<1> loc=P10;
+#NET display<2> loc=M11;
+#NET display<3> loc=M6;
+#NET display<4> loc=N6;
+#NET display<5> loc=T7;
+#NET display<6> loc=R7;
+
+#Display 7-segmentos de la parte izquierda de la placa extendida:
+NET HxResult1<0> LOC=H14;
+NET HxResult1<1> LOC=M4;
+NET HxResult1<2> LOC=P1;
+NET HxResult1<3> LOC=N3;
+NET HxResult1<4> LOC=M15;
+NET HxResult1<5> LOC=H13;
+NET HxResult1<6> LOC=G16;
+
+#Display 7-segmentos de la parte derecha de la placa extendida
+NET HxResult2<0> loc=E2;
+NET HxResult2<1> loc=E1;
+NET HxResult2<2> loc=F3;
+NET HxResult2<3> loc=F2;
+NET HxResult2<4> loc=G4;
+NET HxResult2<5> loc=G3;
+NET HxResult2<6> loc=G1;

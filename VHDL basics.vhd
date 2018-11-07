@@ -13,7 +13,7 @@ an imperative programming language, these are not instruc-
 tions, these are hardware descriptions and hardware comp-
 ponents.
 
-When simulating in VHDL the instructions writtens simulate
+When simulating in VHDL, the instructions writtens simulate
 the functionality of a circuit, they don't execute sequen-
 tially. In an VHDL simulation the instructions will be re-
 peated until a stable state is reachen.
@@ -220,7 +220,7 @@ will be clearer.
 		C => signal_c);
 
 2.12.- Packages:
-	-- Pending.
+	-- Pending. Not really important at this level.
 
 2.13.- Generic parameters in VHDL:
 	Before the ports description in an entity, we can define parameters

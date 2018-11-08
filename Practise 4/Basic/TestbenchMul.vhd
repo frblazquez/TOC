@@ -41,7 +41,7 @@ begin
 	mul: MultiplierASM port map
 	(
 		rst => rst,
-		clk => rst,
+		clk => clk,
 		ini => ini,
 		A   => A,
 		B   => B,
@@ -76,7 +76,7 @@ begin
 	
 	A <= "0000";
 	B <= "0000";
-	wait for 2000 ns;
+	wait for 2000 ns; 
 	
 	A <= "0001";
 	B <= "0001";

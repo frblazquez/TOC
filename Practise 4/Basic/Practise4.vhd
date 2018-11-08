@@ -57,35 +57,35 @@ signal multiplierResult: std_logic_vector(7 downto 0);
 
 begin
 
-iniDebounced: debourcer port map
+iniDebounced: debouncer port map
 (
-	rst  <= rst,
-	clk  <= clk,
-	x    <= start,
-	xDeb <= startDebounced
+	rst  => rst,
+	clk  => clk,
+	x    => start,
+	xDeb => startDebounced -- Should this be xDebFallingEdge?
 );
 
 multiplier: MultiplierASM port map
 (
-	rst <= rst,
-	clk <= clk,
-	ini <= startDebounced,
-	A   <= op1,
-	B   <= op2,
-	Z   <= multiplierResult,
-	fin <= ended
+	rst => rst,
+	clk => clk,	-- Is 100MHz slow enough for big numbers?
+	ini => startDebounced,
+	A   => op1,
+	B   => op2,
+	Z   => multiplierResult,
+	fin => ended
 );
 	
 conv1: conv_7seg port map
 (
-	x       <= multiplierResult(3 downto 0),
-	display <= HxResult1
+	x       => multiplierResult(3 downto 0),
+	display => HxResult1
 );
 
 conv2: conv_7seg port map
 (
-	x       <= multiplierResult(7 downto 4),
-	display <= HxResult2
+	x       => multiplierResult(7 downto 4),
+	display => HxResult2
 );
 
 end Behavioral;

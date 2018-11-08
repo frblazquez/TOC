@@ -22,18 +22,58 @@ end MultiplierASM;
 
 architecture Behavioral of MultiplierASM is
 	
-	-- n bits register
-	component register_n
-		generic (n: natural := 8);
-		port (clk: in std_logic;
-				rst: in std_logic;
-				load: in std_logic;
-				din: in std_logic_vector(n-1 downto 0);
-				dout: out std_logic_vector(n-1 downto 0));
+	component controller
+	port (clk: 	 in std_logic;
+			reset: in std_logic;
+			init:  in std_logic;
+			zero:  in std_logic;
+			control: out std_logic_vector (4 downto 0);
+			ended: 	out std_logic);
+	end component;
+	
+	component dataPath
+	port (clk:     in  std_logic;
+			reset:   in  std_logic;
+			a_in:    in  std_logic_vector(7 downto 0);
+			b_in:    in  std_logic_vector(7 downto 0);
+			control: in  std_logic_vector (4 downto 0);
+			zero:    out std_logic;
+			result:  out std_logic_vector (7 downto 0));
 	end component;
 
+	signal Aextended: std_logic_vector(7 downto 0) := (others=>'0');
+	signal Bextended: std_logic_Vector(7 downto 0) := (others=>'0');
+	signal ControlSg: std_logic_vector(4 downto 0) := (others=>'0');
+	signal endBit: std_logic;
+	signal zeroBit: std_logic;
+	
 begin
-
+	
+	Aextended(3 downto 0) <= A;
+	Bextended(3 downto 0) <= B;
+	
+	Control: controller port map
+	(
+		clk     => clk,
+		reset   => rst,
+		init    => ini, 
+		zero    => zeroBit,
+		control => controlSg,
+		ended   => endBit
+	);
+	
+	Data: dataPath port map
+	(
+		clk    => clk,
+		reset  => rst,
+		a_in   => Aextended,
+		b_in   => Bextended,
+		control=> controlSg,
+		zero   => zeroBit,
+		result => Z
+	);
+	
+	fin <= endBit;
 
 end Behavioral;
 

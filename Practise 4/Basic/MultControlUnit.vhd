@@ -24,23 +24,23 @@ architecture Behavioral of controller is
 type STATE is (S0,S1,S2,S3);
 signal actualState, nextState: STATE := S0;
 
-signal controlAux: std_logic_vector(4 downto 0);
-alias load_a: std_logic is control_aux(0);
-alias load_n: std_logic is control_aux(1);
-alias load_r: std_logic is control_aux(2);
-alias mux_n:  std_logic is control_aux(3);
-alias rst_r:  std_logic is control_aux(4);
+signal controlAux: std_logic_vector(4 downto 0) := (others=>'0');
+alias load_a: std_logic is controlAux(0); 
+alias load_n: std_logic is controlAux(1);
+alias load_r: std_logic is controlAux(2);
+alias mux_n:  std_logic is controlAux(3);
+alias rst_r:  std_logic is controlAux(4);
 
 begin
 
 -- Control contains all the control signals for the components
 -- in the dataPath. From the controller we chose wich signals are
 -- activated at each state.
-control <= control_aux;
+control <= controlAux;
 
 -- Don't forget that an ASM is an finite state machine extended.
 -- This is the synchronous state change.
-process (clk, reset)
+process (clk)
 begin
 	if clk'event and clk = '1' then
 		if reset = '1' then
@@ -51,17 +51,17 @@ begin
 	end if;
 end process;
 
--- Combinational output (function of the actual state).
+-- Combinational output (function of the actual state, init and zero).
 process(actualState,init,zero)
 begin
 
 -- Default values:
-	load_a <= '0';
-	load_n <= '0';
-	load_r <= '0';
-	mux_n  <= '0';
-	rst_r  <= '0';
-	ended  <= '0';
+	load_a <= '0';		-- Don't read register A
+	load_n <= '0';		-- Don't read register N
+	load_r <= '0';		-- Don't read register R
+	mux_n  <= '0';		-- Chose N-1 for register N (instead of B input)
+	rst_r  <= '0';		-- Don't reset register R
+	ended  <= '0';		-- The result is not correct yet!
 	
 case actualState is
 when S0 =>
@@ -98,6 +98,8 @@ when others =>
  --load_a <= '0';
  --mux_n  <= '0';
  --rst_r  <= '0';
+ 
+	nextState <= S2;
 	
 end case;
 

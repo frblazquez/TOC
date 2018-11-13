@@ -54,21 +54,24 @@ architecture Behavioral of Practise4 is
 -- SIGNALS NEEDED:
 signal startDebounced: std_logic;
 signal multiplierResult: std_logic_vector(7 downto 0);
+signal notRst: std_logic;
 
 begin
+
+notRst <= not(rst);
 
 iniDebounced: debouncer port map
 (
 	rst  => rst,
 	clk  => clk,
 	x    => start,
-	xDeb => startDebounced -- Should this be xDebFallingEdge?
+	xDebRisingEdge => startDebounced -- Should this be xDebFallingEdge?
 );
 
 multiplier: MultiplierASM port map
 (
-	rst => rst,
-	clk => clk,	-- Is 100MHz slow enough for big numbers?
+	rst => notRst,
+	clk => clk,
 	ini => startDebounced,
 	A   => op1,
 	B   => op2,

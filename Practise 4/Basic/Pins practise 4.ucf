@@ -16,14 +16,14 @@ NET clk LOC=T9;
 #NET SW<4> LOC=J4;
 
 #switches placa extendida
-NET A<0> LOC=P12;
-NET A<1> LOC=J1;
-NET A<2> LOC=H1;
-NET A<3> LOC=H3;
-NET B<0> LOC=G2;
-NET B<1> LOC=K15;
-NET B<2> LOC=K16;
-NET B<3> LOC=F15;
+NET op1<0> LOC=P12;
+NET op1<1> LOC=J1;
+NET op1<2> LOC=H1;
+NET op1<3> LOC=H3;
+NET op2<0> LOC=G2;
+NET op2<1> LOC=K15;
+NET op2<2> LOC=K16;
+NET op2<3> LOC=F15;
 
 #push buttons placa superior
 #NET PB2 LOC=E11; 
@@ -33,7 +33,7 @@ NET B<3> LOC=F15;
 NET start LOC=H4;
 #NET pushb2 LOC=L5;
 #NET pushb3 LOC=N2;
-NET reset LOC=M3;
+NET rst LOC=M3;
 
 #barra de leds placa extendida
 #NET leds<1> LOC=L5;

@@ -12,12 +12,12 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity dataPath is
 	port (clk:     in  std_logic;
-		  reset:   in  std_logic;
-		  a_in:    in  std_logic_vector(7 downto 0);
-		  b_in:    in  std_logic_vector(7 downto 0);
-		  control: in  std_logic_vector (4 downto 0);
-		  zero:    out std_logic;
-		  result:  out std_logic_vector (7 downto 0));
+			reset:   in  std_logic;
+			a_in:    in  std_logic_vector(7 downto 0);
+			b_in:    in  std_logic_vector(7 downto 0);
+			control: in  std_logic_vector (4 downto 0);
+			zero:    out std_logic;
+			result:  out std_logic_vector (7 downto 0));
 end dataPath;
 
 architecture Behavioral of dataPath is
@@ -26,10 +26,10 @@ architecture Behavioral of dataPath is
 	component register_n
 		generic (n: natural := 8);
 		port (clk:  in  std_logic;
-			  rst:  in  std_logic;
-			  load: in  std_logic;
-			  din:  in  std_logic_vector(n-1 downto 0);
-			  dout: out std_logic_vector(n-1 downto 0));
+				rst:  in  std_logic;
+				load: in  std_logic;
+				din:  in  std_logic_vector(n-1 downto 0);
+				dout: out std_logic_vector(n-1 downto 0));
 	end component;
 	
 	signal controlAux: std_logic_vector(4 downto 0) := (others=>'0');
@@ -59,7 +59,7 @@ begin
 	---------------------- 2to1 Multiplexor -------------------------------
 	with mux_n select
 	muxNout <=  b_in      when '1',
-				regNminus when others;
+					regNminus when others;
 	-----------------------------------------------------------------------
 					
 	-- Registers:
@@ -72,7 +72,7 @@ begin
 	
 	with regNout select 
 	zero <=	'1' when "00000000", 
-			'0' when others;
+				'0' when others;
 
 end Behavioral;
 

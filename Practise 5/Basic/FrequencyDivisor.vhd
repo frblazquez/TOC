@@ -13,7 +13,7 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity FrequencyDivisor is
 	port(rst:     in  std_logic; -- Reset signal (asynchronous)
-		  clk_in:  in  std_logic; -- Clock signal input  (Should be 100MHz square signal)
+		  clk:     in  std_logic; -- Clock signal input  (Should be 100MHz square signal)
 		  clk_1Hz: out std_logic; -- Clock signal output (Will be 1/100M clock input frequency)
 		  clk_1:   out std_logic; -- Clock signal aux   (Will be 1/2 clock input frequency)
 		  clk_2:   out std_logic);-- Clock signal aux 2 (Will be 1/5 clock input frequency)
@@ -29,13 +29,13 @@ architecture Behavioral of FrequencyDivisor is
 	
 begin
 
-	process(clk_in, rst)
+	process(clk, rst, count)
 	begin
 		
 		if(rst='1') then
 			count <= (others=>'0');
 			clk_1Hz <= '0';
-		elsif(rising_edge(clk_in)) then
+		elsif(rising_edge(clk)) then
 			if(count=ONE_SEC) then
 				clk_1Hz <= '1';
 				count <= (others=>'0');
@@ -56,7 +56,7 @@ end Behavioral;
 --
 --component FrequencyDivisor is
 --	port(rst:     in  std_logic; -- Reset signal (asynchronous)
---		  clk:  	  in  std_logic; -- Clock signal input  (Should be 100MHz square signal)
+--		  clk:     in  std_logic; -- Clock signal input  (Should be 100MHz square signal)
 --		  clk_1Hz: out std_logic; -- Clock signal output (Will be 1/100M clock input frequency)
 --      clk_1:   out std_logic; -- Clock signal output (Will be 1/2  clock input frequency)
 --      clk_2:   out std_logic);-- Clock signal output (Will be 1/32 clock input frequency)

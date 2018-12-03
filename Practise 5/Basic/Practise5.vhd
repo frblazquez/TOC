@@ -10,12 +10,12 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity Practise5 is
-	port(rst: in std_logic;							-- Reset signal(0 means reset!)
-		  clk: in std_logic;						-- Clock signal (expected 100MHz)
-		  ini: in std_logic;						-- Start counting signal (0 means start!)
-		  fin: in std_logic;						-- Stop counting signal	 (0 means stop!)
-		  leds: out std_logic_vector(9 downto 0);	-- Luminic output
-		  num_1:out std_logic_vector(6 downto 0);	-- 7_segment counter 1 output
+	port(rst: in std_logic;									-- Reset signal(0 means reset!)
+		  clk: in std_logic;									-- Clock signal (expected 100MHz)
+		  ini: in std_logic;									-- Start counting signal (0 means start!)
+		  fin: in std_logic;									-- Stop counting signal	 (0 means stop!)
+		  leds: out std_logic_vector(9 downto 0);		-- Luminic output
+		  num_1:out std_logic_vector(6 downto 0);		-- 7_segment counter 1 output
 		  num_2:out std_logic_vector(6 downto 0));	-- 7_segment counter 2 output
 end Practise5;
 
@@ -109,7 +109,7 @@ begin
 	
 	dataPath:DataPathPr5 port map
 	(
-		rst     		 => rst,
+		rst     		 => rst_high,
 		clk 			 => clk,
 		control 		 => control,
 		iguales 		 => equal,
@@ -121,7 +121,7 @@ begin
 	
 	controller:ControllerPr5 port map
 	(
-		rst  		=> rst,
+		rst  		=> rst_high,
 	   clk		=> clk,
 		ini		=> ini_rising,
 		fin		=> fin_rising,

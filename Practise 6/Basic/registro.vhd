@@ -1,10 +1,3 @@
--- Francisco Javier Blzquez Martnez ~ frblazqu@ucm.es
---
--- Double degree in Mathematics-Computer engineering.
--- Complutense university, Madrid.
---
--- Description: 32 bits register design.
-
 library IEEE;
 use IEEE.std_logic_1164.all;
 

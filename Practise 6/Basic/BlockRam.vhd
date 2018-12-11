@@ -1,28 +1,26 @@
--- Francisco Javier Blzquez Martnez ~ frblazqu@ucm.es
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
 --
 -- Double degree in Mathematics-Computer engineering.
 -- Complutense university, Madrid.
 --
--- Description: Block RAM memory for MIPS processor.
+-- Description: 
+-- BlockRam memory for MIPS processor. Initialization inside the memory.
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.numeric_std.all;
 
 entity BlockRam is
-	port (
-		clka, wea, ena : in STD_LOGIC;
-		addra : in STD_LOGIC_VECTOR (8 downto 0);
-		dina : in STD_LOGIC_VECTOR (31 downto 0);
-		douta : out STD_LOGIC_VECTOR (31 downto 0)
-	);
+port( clka, wea, ena : in std_logic;
+		addra : in  std_logic_vector(8  downto 0);
+		dina  : in  std_logic_vector(31 downto 0);
+		douta : out std_logic_vector(31 downto 0));
 end BlockRam;
 
 architecture Behavioral of BlockRam is
 
 	type ram_type is array (0 to 511) of std_logic_vector (31 downto 0);
-	signal ram : ram_type := 
-									(
+	signal ram : ram_type := (
 										x"00631816",-- 			xor R3, R3, R3 (mv R3, #0) Resultado							0x00000000	000000 00011 00011 00011 00000 010110
 										x"00842016",--  			xor R4, R4, R4 (mv R4, #0) Para tener un cero				0x00000004	000000 00100 00100 00100 00000 010110
 										x"8C80002C",-- 			lw R0, 44(R4)	(lw A, R0)											0x00000008	100011 00100 00000 0000000000101100
@@ -34,7 +32,7 @@ architecture Behavioral of BlockRam is
 										x"1000FFFC",-- 			beq R0, R0, WHILE														0x00000020	000100 00000 00000 1111111111111100
 										x"AC830038",-- FIN: 		sw R3, 56(R4)  (sw R3, C) 											0x00000024	101011 00100 00011 0000000000111000
 										x"1000FFFF",-- FINAL:	beq R0, R0, FINAL														0x00000028	000100 00000 00000 1111111111111111
-										x"00000007",-- 			VALOR A ¿Sin tabla de literales para simplificar?			0x0000002C	0x00000007
+										x"00000007",-- 			VALOR A Sin tabla de literales para simplificar?			0x0000002C	0x00000007
 										x"00000003",-- 			VALOR B																	0x00000030	0x00000003
 										x"00000001",--				VALOR UNO																0x00000034	0x00000001
 														--				VALOR C = A*B															0x00000038

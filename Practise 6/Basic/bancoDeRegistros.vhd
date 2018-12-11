@@ -1,17 +1,17 @@
--- Francisco Javier Blzquez Martnez ~ frblazqu@ucm.es
+-- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
 --
 -- Double degree in Mathematics-Computer engineering.
 -- Complutense university, Madrid.
 --
--- Description: MIPS processor registers design.
+-- Description: 
+-- Registers for the MIPS processor.
 
 library IEEE;
 use IEEE.std_logic_1164.all;
 use ieee.numeric_std.all; 
 
 entity bancoDeRegistros is
-	port( 
-		clk		: in  std_logic;
+port( clk		: in  std_logic;
 		rst_n		: in  std_logic;
 		RA			: in  std_logic_vector(4 downto 0);
 		RB			: in  std_logic_vector(4 downto 0);
@@ -19,8 +19,8 @@ entity bancoDeRegistros is
 		RW			: in  std_logic_vector(4 downto 0);
 		busW		: in  std_logic_vector(31 downto 0);
 		busA		: out std_logic_vector(31 downto 0);
-		busB		: out std_logic_vector(31 downto 0) 
-	);
+		busB		: out std_logic_vector(31 downto 0);
+		R3			: out std_logic_vector(31 downto 0));
 end bancoDeRegistros;
 
 architecture bancoDeRegistrosArch of bancoDeRegistros is
@@ -47,5 +47,7 @@ begin
 	lectura:
 	busA <= bancoDeRegistros(to_integer(unsigned(RA)));
 	busB <= bancoDeRegistros(to_integer(unsigned(RB)));
+	
+	R3 <= bancoDeRegistros(3);
 
 end bancoDeRegistrosArch;

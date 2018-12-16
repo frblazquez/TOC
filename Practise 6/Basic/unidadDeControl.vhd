@@ -1,4 +1,4 @@
--- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+-- Francisco Javier Blzquez Martnez ~ frblazqu@ucm.es
 --
 -- Double degree in Mathematics-Computer engineering.
 -- Complutense university, Madrid.
@@ -12,8 +12,9 @@ use IEEE.std_logic_1164.all;
 entity unidadDeControl is
 port( clk		: in  std_logic;
 		rst_n		: in  std_logic;
-		control	: out std_logic_vector(15 downto 0);
+		control	: out std_logic_vector(18 downto 0);
 		Zero		: in  std_logic;
+		zero_inm : in  std_logic;
 		op			: in  std_logic_vector(5 downto 0);
 		modo		: in  std_logic;
 		siguiente: in  std_logic);
@@ -21,23 +22,24 @@ end unidadDeControl;
 
 architecture unidadDeControlArch of unidadDeControl is
 
-  signal control_aux : std_logic_vector(15 downto 0);
+  signal control_aux : std_logic_vector(18 downto 0);
   alias PCWrite	: std_logic is control_aux(0);
   alias IorD 		: std_logic is control_aux(1);
   alias MemWrite	: std_logic is control_aux(2);
   alias MemRead 	: std_logic is control_aux(3);
   alias IRWrite 	: std_logic is control_aux(4);
   alias RegDst 	: std_logic is control_aux(5);
-  alias MemtoReg 	: std_logic is control_aux(6);
-  alias RegWrite 	: std_logic is control_aux(7);
-  alias AWrite 	: std_logic is control_aux(8);
-  alias BWrite 	: std_logic is control_aux(9);  
-  alias ALUScrA 	: std_logic is control_aux(10);
-  alias ALUScrB 	: std_logic_vector(1 downto 0) is control_aux(12 downto 11);
-  alias OutWrite 	: std_logic is control_aux(13);
-  alias ALUop 		: std_logic_vector(1 downto 0) is control_aux(15 downto 14);
+  alias MemtoReg 	: std_logic_vector(2 downto 0) is control_aux(8 downto 6);
+  alias RegWrite 	: std_logic is control_aux(9);
+  alias AWrite 	: std_logic is control_aux(10);
+  alias BWrite 	: std_logic is control_aux(11);  
+  alias ALUScrA 	: std_logic is control_aux(12);
+  alias ALUScrB 	: std_logic_vector(1 downto 0) is control_aux(14 downto 13);
+  alias OutWrite 	: std_logic is control_aux(15);
+  alias ALUop 		: std_logic_vector(1 downto 0) is control_aux(17 downto 16);
+  alias PCMux     : std_logic is control_aux(18);
   
-  TYPE states IS (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11);
+  TYPE states IS (S0, S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15);
   SIGNAL currentState, nextState: states;
 
 begin
@@ -45,7 +47,7 @@ begin
 	control <= control_aux;
 
   stateGen:
-  PROCESS (currentState, op , zero, modo, siguiente)
+  PROCESS (currentState, op , zero, zero_inm, modo, siguiente)
   BEGIN
 
     nextState <= currentState;
@@ -58,6 +60,8 @@ begin
 			MemRead <= '1';
 			ALUScrB <= "01";
 			nextState <= S1;
+		 --ALUSrcA <= '0';
+		 --IorD    <= '0';
 			
 		WHEN S1 =>
 			IRWrite <= '1';
@@ -68,14 +72,23 @@ begin
 		WHEN S2 =>
 			AWrite <= '1';
 			BWrite <= '1';
-			if (op = "000000") then -- tipo-R
+			
+			if    (op = "000000") then -- arith-logic
 				nextState <= S8;
 			elsif (op = "100011") then -- lw
 				nextState <= S3;
 			elsif (op = "101011") then -- sw
 				nextState <= S6;
-			elsif (op = "000100") then --beq
+			elsif (op = "000100") then -- beq
 				nextState <= S10;
+			elsif (op = "010000") then -- mv #inmed
+				nextState <= S12;
+			elsif (op = "010010") then -- mv rt, rs
+				nextState <= S13;
+			elsif (op = "000010") then -- jump
+				nextState <= S14;
+			elsif (op = "010001") then -- lectura switches
+				nextState <= S15;
 			end if;
 		
 		WHEN S3 =>
@@ -90,7 +103,7 @@ begin
 			nextState <= S5;
 		
 		WHEN S5 =>
-			MemtoReg <= '1';
+			MemtoReg <= "001";
 			RegWrite <= '1';
 			nextState <= S0;
 		
@@ -107,7 +120,10 @@ begin
 		
 		WHEN S8 =>
 			ALUScrA <= '1';
-			ALUOp <= "10";
+			ALUOp <= "10";		
+		-- ALUOp=="00" ~ +
+		-- ALUOp=="01" ~ -
+		-- ALUOp=="10" ~ funct bits deciden
 			OutWrite <= '1';
 			nextState <= S9;
 		
@@ -128,6 +144,35 @@ begin
 		WHEN S11 =>
 			PCWrite <= '1';
 			ALUScrB <= "11";
+			nextState <= S0;
+		 --PCMux <= '0';
+		 
+		WHEN S12 =>
+	    --RegDst => '0';
+		   MemToReg  <= "010";
+			RegWrite  <= '1';
+			nextState <= S0;
+		
+		WHEN S13 => 
+	    --RegDst => '0';
+		   MemToReg  <= "011";
+			RegWrite  <= '1';
+			nextState <= S0;
+		
+		WHEN S14 =>
+			PCMux <= '1';
+			PCWrite <= '1';
+			nextState <= S0;
+		
+		WHEN S15 =>
+			
+			if(zero_inm='0') then
+				MemtoReg <= "100";
+			else
+				MemtoReg <= "101";
+			end if;
+			
+			regWrite <= '1';
 			nextState <= S0;
 
     END CASE;

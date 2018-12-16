@@ -1,4 +1,4 @@
--- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+-- Francisco Javier Blzquez Martnez ~ frblazqu@ucm.es
 --
 -- Double degree in Mathematics-Computer engineering.
 -- Complutense university, Madrid.
@@ -12,8 +12,11 @@ use IEEE.std_logic_1164.all;
 entity rutaDeDatos is
 	port(clk		 : in  std_logic;
 		  rst_n	 : in  std_logic;
-		  control : in  std_logic_vector(15 downto 0);
+		  control : in  std_logic_vector(18 downto 0);
+		  sw_sup	 : in  std_logic_vector(3 downto 0);
+		  sw_ext  : in  std_logic_vector(3 downto 0);
 		  Zero	 : out std_logic;
+		  zero_inm: out std_logic;
 		  op		 : out std_logic_vector(5 downto 0);
 		  R3		 : out std_logic_vector(31 downto 0);
 		  PCout	 : out std_logic_vector(31 downto 0));
@@ -21,7 +24,7 @@ end rutaDeDatos;
 
 architecture rutaDeDatosArch of rutaDeDatos is
 
--- COMPONENTES BÁSICOS:
+-- COMPONENTES BSICOS:
 -- Registro de 32 bits:
 	component registro
 	generic(n : positive := 32);
@@ -77,7 +80,7 @@ architecture rutaDeDatosArch of rutaDeDatos is
 			R3			: out std_logic_vector(31 downto 0));
 	end component;  
 
--- Unidad aritmético-lógica (opera sobre vectores 32 bits):
+-- Unidad aritmtico-lgica (opera sobre vectores 32 bits):
 	component ALU
 	port( A			: in  std_logic_vector(31 downto 0);
 			B			: in  std_logic_vector(31 downto 0);
@@ -87,24 +90,25 @@ architecture rutaDeDatosArch of rutaDeDatos is
 			R			: out std_logic_vector(31 downto 0));
 	end component;  
   
--- SEÑALES DE CONTROL:
-  signal control_aux : std_logic_vector(15 downto 0);
+-- SEALES DE CONTROL:
+  signal control_aux : std_logic_vector(18 downto 0);
   alias PCWrite	: std_logic is control_aux(0);
   alias IorD 		: std_logic is control_aux(1);
   alias MemWrite	: std_logic is control_aux(2);
   alias MemRead 	: std_logic is control_aux(3);
   alias IRWrite 	: std_logic is control_aux(4);
   alias RegDst 	: std_logic is control_aux(5);
-  alias MemtoReg 	: std_logic is control_aux(6);
-  alias RegWrite 	: std_logic is control_aux(7);
-  alias AWrite 	: std_logic is control_aux(8);
-  alias BWrite 	: std_logic is control_aux(9);  
-  alias ALUScrA 	: std_logic is control_aux(10);
-  alias ALUScrB 	: std_logic_vector(1 downto 0) is control_aux(12 downto 11);
-  alias OutWrite 	: std_logic is control_aux(13);
-  alias ALUop 		: std_logic_vector(1 downto 0) is control_aux(15 downto 14);
+  alias MemtoReg 	: std_logic_vector(2 downto 0) is control_aux(8 downto 6);
+  alias RegWrite 	: std_logic is control_aux(9);
+  alias AWrite 	: std_logic is control_aux(10);
+  alias BWrite 	: std_logic is control_aux(11);  
+  alias ALUScrA 	: std_logic is control_aux(12);
+  alias ALUScrB 	: std_logic_vector(1 downto 0) is control_aux(14 downto 13);
+  alias OutWrite 	: std_logic is control_aux(15);
+  alias ALUop 		: std_logic_vector(1 downto 0) is control_aux(17 downto 16);
+  alias PCMux     : std_logic is control_aux(18);
   
--- SEÑALES USADAS:
+-- SEALES USADAS:
   signal salidaALU		 : std_logic_vector(31 downto 0);
   signal PC 				 : std_logic_vector(31 downto 0);
   signal ALUOut 			 : std_logic_vector(31 downto 0);
@@ -121,19 +125,35 @@ architecture rutaDeDatosArch of rutaDeDatos is
   signal desplazado 		 : std_logic_vector(31 downto 0);
   signal salidaBancoRegA : std_logic_vector(31 downto 0);
   signal salidaBancoRegb : std_logic_vector(31 downto 0);
+  signal saltoIncond     : std_logic_vector(31 downto 0);
+  signal nextPC          : std_logic_vector(31 downto 0);
+  signal sw_sup_ext      : std_logic_vector(31 downto 0);
+  signal sw_ext_ext      : std_logic_vector(31 downto 0);
   
 begin
 
-	PCout <= PC;
+	PCout 	   <= PC;
  	control_aux <= control;
-	op <= IR(31 downto 26);
-
+	op 			<= IR(31 downto 26);
+	saltoIncond <= "000000" & IR(25 downto 0);
+	zero_inm    <= '1' when IR(15 downto 0)=x"0000" else '0';
+	sw_sup_ext  <= x"FFFFFFF"&sw_sup when sw_sup(3)='1' else x"0000000"&sw_sup;
+	sw_ext_ext  <= x"FFFFFFF"&sw_ext when sw_ext(3)='1' else x"0000000"&sw_ext;
+	
+	mux_PC : multiplexor2a1 port map
+	(
+		entrada0  => salidaALU, 
+		entrada1  => saltoIncond,
+		seleccion => PCmux, 
+		salida    => nextPC
+	); 
+	
 	reg_PC : registro port map
 	(
 		clk 	=> clk, 
 		rst_n => rst_n, 
 		load 	=> PCWrite, 
-		din 	=> salidaALU, 
+		din 	=> nextPC, 
 		dout 	=> PC
 	);
 
@@ -172,13 +192,26 @@ begin
 		salida 	 => RW
 	);
 	
-	mux_MDR : multiplexor2a1 port map
-	(	
-		entrada0 => ALUout, 
-		entrada1 => salidaMem, 
-		seleccion => MemtoReg, 
-		salida => busW
-	);
+-----------------------------------------------------
+--	mux_MDR : multiplexor4a1 port map
+--	(	
+--		entrada0  => ALUout, 
+--		entrada1  => salidaMem, 
+--		entrada2  => signo_extendido, 
+--		entrada3  => A,
+--		seleccion => MemtoReg, 
+--		salida    => busW
+--	);
+------------------------------------------------------
+--------------- MULTIPLEXOR 8a1 ----------------------
+	with MemtoReg select 
+	busW <= ALUout 			when "000",
+			  salidaMem 		when "001",
+			  signo_extendido when "010",
+			  A					when "011",
+			  sw_sup_ext		when "100",
+			  sw_ext_ext		when others;
+------------------------------------------------------
 	
 	-- Extension de signo
 	signo_extendido(15 downto 0)  <= IR(15 downto 0);

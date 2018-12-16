@@ -1,4 +1,4 @@
--- Francisco Javier Blázquez Martínez ~ frblazqu@ucm.es
+-- Francisco Javier Blzquez Martnez ~ frblazqu@ucm.es
 --
 -- Double degree in Mathematics-Computer engineering.
 -- Complutense university, Madrid.
@@ -18,6 +18,8 @@ entity MIPSMulticiclo is
 		  displayI	: out std_logic_vector(6 downto 0);
 		  modo		: in 	std_logic;
 		  siguiente	: in 	std_logic;
+		  sw_sup		: in  std_logic_vector(3 downto 0);
+		  sw_ext		: in  std_logic_vector(3 downto 0);
 		  displayS 	: out std_logic_vector(6 downto 0));
 end MIPSMulticiclo;
 
@@ -26,8 +28,9 @@ architecture MIPSMulticicloArch of MIPSMulticiclo is
 	component unidadDeControl is
 	port(clk			: in  std_logic;
 		  rst_n		: in  std_logic;
-		  control	: out std_logic_vector(15 downto 0);
+		  control	: out std_logic_vector(18 downto 0);
 		  Zero		: in  std_logic;
+		  zero_inm  : in  std_logic;
 		  op			: in  std_logic_vector(5 downto 0);
 		  modo		: in  std_logic;
 		  siguiente	: in  std_logic);
@@ -36,8 +39,11 @@ architecture MIPSMulticicloArch of MIPSMulticiclo is
 	component rutaDeDatos is
 	port(clk		 : in  std_logic;
 		  rst_n	 : in  std_logic;
-		  control : in  std_logic_vector(15 downto 0);
+		  control : in  std_logic_vector(18 downto 0);
+		  sw_sup	 : in  std_logic_vector(3 downto 0);
+		  sw_ext  : in  std_logic_vector(3 downto 0);
 		  Zero	 : out std_logic;
+		  zero_inm: out std_logic;
 		  op		 : out std_logic_vector(5 downto 0);
 		  R3		 : out std_logic_vector(31 downto 0);
 		  PCout	 : out std_logic_vector(31 downto 0));
@@ -66,8 +72,9 @@ architecture MIPSMulticicloArch of MIPSMulticiclo is
 	END component;
   
    signal clk_10MHz : std_logic;
-	signal control : std_logic_vector(15 downto 0);
+	signal control : std_logic_vector(18 downto 0);
 	signal Zero	: std_logic;
+	signal zero_inm: std_logic;
 	signal op : std_logic_vector(5 downto 0);
 	signal R3 : std_logic_vector(31 downto 0);
 	signal PC : std_logic_vector(31 downto 0);
@@ -87,10 +94,10 @@ begin
 	(
 		rst		 		 => rst_n, 
 		clk	 			 => clk_10MHz, 
-		x 					 => siguiente, 
+		x 					 => siguiente, 			-- Pulsador
 		xDeb 				 => open, 
 		xDebFallingEdge => open, 
-		xDebRisingEdge  => siguienteDebouncer
+		xDebRisingEdge  => siguienteDebouncer	-- 1 un ciclo si pulsador pasa de 1 a 0
 	);
 	
 	UC : unidadDeControl port map
@@ -99,6 +106,7 @@ begin
 		rst_n 	 => rst_n, 
 		control 	 => control, 
 		Zero 		 => Zero, 
+		zero_inm  => zero_inm,
 		op 		 => op, 
 		modo 		 => modo, 
 		siguiente => siguienteDebouncer
@@ -109,7 +117,10 @@ begin
 		clk 		=> clk_10MHz, 
 		rst_n 	=> rst_n, 
 		control 	=> control, 
-		Zero 		=> Zero, 
+		Zero 		=> Zero,
+		zero_inm => zero_inm,
+		sw_sup   => sw_sup,
+		sw_ext   => sw_ext,
 		op 		=> op, 
 		R3 		=> R3, 
 		PCout 	=> PC
@@ -134,5 +145,5 @@ begin
 	);
 	
 	PCDecrementado <= std_logic_vector(to_unsigned(to_integer(unsigned(PC(31 downto 2))) - 1, 32));
-
+	
 end MIPSMulticicloArch;

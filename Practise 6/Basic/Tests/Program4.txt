@@ -6,7 +6,7 @@
 -- Description: 
 -- Initialization for a blockram memory with the assembly code for a 
 -- multiplier in MIPS processor.
--- Test 2: Multiplier with mv and inconditional jump instruction.
+-- Test 3: Multiplier with mv and inconditional jump instruction.
 
 x"40030000",--		mv  R3, #0			0x00000000	010000 ----- 00011 0000000000000000
 x"48640000",-- 		mv  R4, R3			0x00000004	010010 00011 00100 ----------------		

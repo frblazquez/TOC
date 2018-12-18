@@ -1,0 +1,34 @@
+-- Francisco Javier Blázquez Martínez - frblazqu@ucm.es
+-- Comentarios relativos al examen de laboratorios,
+-- se indican las modificaciones realizadas en cada apartado.
+
+
+1.- Instrucción de salto incondicional relativo a PC:
+	Modificar el S2 del controlador para saltar al S11 (ya existente) cuando
+	el código de operación sea el asignado a la nueva instrucción.
+
+2.- Control de excepciones:
+	Añadir un estado en el controlador llamado EXCEPTION en el cual, el siguiente
+	estado al que se pasa es él mismo y se pone a '1' un bit de salida añadido a
+	controller (excep). Al hacer nextState => currentState en EXCEPTION se consigue
+	que solo se pueda salir de este por un reset.
+	
+	Pequeñas modificaciones adicionales en MIPSMulticiclo.vhd para añadir también el
+	bit de salida de controller y en el fichero pines.ucf para mostrarlo en controller.
+
+3.- Instrucciones de desplazamiento:
+	Aprovechar las transiciones de estados en las operaciones aritmético-lógicas para
+	solo tener que añadir esta funcionalidad de desplazar señales de 32 bits dentro de
+	la ALU.
+
+	Únicas modificaciones por tanto dentro de la ALU, añadiendo las dos operaciones que
+	se muestran en la salida de la ALU cuando el código de función es el correspondiente.
+
+4.- Mostrar 8LSB de un registro:
+	Añadir un registro en DataPath cuya entrada es A, una señal de control para mandarle
+	la orden de load (MostrarWrite) y actualizar  Ruta de datos y controller con esto.
+	Añadimos también la salida de este registro como salida de ruta de Datos y en el
+	fichero MIPSMulticiclo.vhd añadir también la salida de 8LSB. Modificar también el
+	fichero pines.ucf para mostrar esto.
+
+

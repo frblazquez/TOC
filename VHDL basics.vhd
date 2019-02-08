@@ -13,7 +13,7 @@ an imperative programming language, these are not instruc-
 tions, these are hardware descriptions and hardware comp-
 ponents.
 
-When simulating in VHDL, the instructions writtens simulate
+When simulating in VHDL, the written instructions simulate
 the functionality of a circuit, they don't execute sequen-
 tially. In an VHDL simulation the instructions will be re-
 peated until a stable state is reachen.
@@ -35,7 +35,7 @@ architecture arch_name of entity_name is
 begin
 -- description code
 -- components
--- process clause
+-- process clause (not always)
 process (lista de sensibilidad)
 begin
 -- código de descripción
